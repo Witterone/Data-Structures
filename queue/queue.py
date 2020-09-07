@@ -26,6 +26,8 @@ class Queue:
         self.storage.insert(0,value)
 
     def dequeue(self):
-        element = self.storage[0]
-        self.storage.remove(self.storage[0])
+        element = self.storage[-1]
+        self.storage.pop()
         return element
+
+
