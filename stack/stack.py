@@ -11,9 +11,9 @@ return elements in Last In First Out order.
    implementing a Stack?
 """
 class Stack:
-    def __init__(self,storage=[]):
+    def __init__(self):
         self.size = 0
-        self.storage = storage
+        self.storage = []
 
     def __len__(self):
         return len(self.storage)

@@ -15,15 +15,15 @@ the Queue?
          What would that look like? How many Stacks would you need? Try it!
 """
 class Queue:
-    def __init__(self,storage=[]):
+    def __init__(self):
         self.size = 0
-        self.storage = storage
+        self.storage = []
     
     def __len__(self):
         return len(self.storage)
 
     def enqueue(self, value):
-        self.storage.insert(0,value)
+        self.storage.append(value)
 
     def dequeue(self):
         element = self.storage[-1]
