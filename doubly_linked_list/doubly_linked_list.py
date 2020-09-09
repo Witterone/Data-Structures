@@ -179,12 +179,16 @@ class DoublyLinkedList:
                 before.set_next(after)
             if after:
                 after.set_prev(before)
+                
+            if current == self.head:
+                self.head = self.head.next
             
             self.tail.set_next(current)
+            
         
             current.set_prev(self.tail)
             current.set_next(None)
-            self.tail = current
+            self.tail = node
 
     """
     Deletes the input node from the List, preserving the 
