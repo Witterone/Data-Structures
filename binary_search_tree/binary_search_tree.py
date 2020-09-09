@@ -17,20 +17,92 @@ class BSTNode:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        
+        new_BSTN = BSTNode(value)
+        cur_nd = self
+        while cur_nd is not new_BSTN:
+            
+            if new_BSTN.value < cur_nd.value:
+                if cur_nd.left is None:
+                    cur_nd.left = new_BSTN
+                    
+               
+                cur_nd = cur_nd.left
+            else:
+                if cur_nd.right is None:
+                    cur_nd.right = new_BSTN
+                
+                cur_nd = cur_nd.right
+        
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        cur_nd = self
+        while cur_nd.value != target:
+            if target< cur_nd.value:
+                if cur_nd.left is not None:
+                    cur_nd = cur_nd.left
+                else:
+                    return False
+            else:
+                if cur_nd.right is not None:
+                    cur_nd = cur_nd.right
+                else:
+                    return False
+                
+        return True
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        cur_nd = self
+        max_val=self.value
+        while cur_nd.right is not None:
+            cur_nd = cur_nd.right
+            if cur_nd.value > max_val:
+                max_val = cur_nd.value
+            
+        return max_val
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        pass
+        cur_nd = self
+        root = self
+        cur_nd.value = fn(cur_nd.value)
+        while cur_nd.right is not None or cur_nd.left is not None:
+            cur_r = cur_nd.right
+            cur_l = cur_nd.left
+            if cur_l is not None:
+                cur_l.value = fn(cur_l.value)
+            if cur_r is not None: 
+                cur_r.value = fn(cur_r.value)
+            if cur_l is not None:
+                cur_nd = cur_l
+            elif cur_r is not None:
+                cur_nd = cur_r
+                
+            else:
+                cur_nd = cur_nd
+        
+        if root.right is not None:
+                cur_nd = root.right
+        
+        while cur_nd.right is not None or cur_nd.left is not None:
+            cur_r = cur_nd.right
+            cur_l = cur_nd.left
+            if cur_l is not None:
+                cur_l.value = fn(cur_l.value)
+            if cur_r is not None: 
+                cur_r.value = fn(cur_r.value)
+            if cur_l is not None:
+                cur_nd = cur_l
+            elif cur_r is not None:
+                cur_nd = cur_r
+        
+        
+        
+        
+        
 
     # Part 2 -----------------------
 
@@ -38,7 +110,8 @@ class BSTNode:
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
         pass
-
+    def in_order_dft(self):
+        pass
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
