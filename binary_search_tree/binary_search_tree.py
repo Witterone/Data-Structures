@@ -9,12 +9,15 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+from queue import Queue
+from stack import Stack
+
 class BSTNode:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
-
+        self.checked = False
     # Insert the given value into the tree
     def insert(self, value):
         
@@ -65,62 +68,107 @@ class BSTNode:
         return max_val
 
     # Call the function `fn` on the value of each node
-    def for_each(self, fn):
-        cur_nd = self
-        root = self
-        cur_nd.value = fn(cur_nd.value)
-        while cur_nd.right is not None or cur_nd.left is not None:
-            cur_r = cur_nd.right
-            cur_l = cur_nd.left
-            if cur_l is not None:
-                cur_l.value = fn(cur_l.value)
-            if cur_r is not None: 
-                cur_r.value = fn(cur_r.value)
-            if cur_l is not None:
-                cur_nd = cur_l
-            elif cur_r is not None:
-                cur_nd = cur_r
-                
-            else:
-                cur_nd = cur_nd
-        
-        if root.right is not None:
-                cur_nd = root.right
-        
-        while cur_nd.right is not None or cur_nd.left is not None:
-            cur_r = cur_nd.right
-            cur_l = cur_nd.left
-            if cur_l is not None:
-                cur_l.value = fn(cur_l.value)
-            if cur_r is not None: 
-                cur_r.value = fn(cur_r.value)
-            if cur_l is not None:
-                cur_nd = cur_l
-            elif cur_r is not None:
-                cur_nd = cur_r
-        
-        
-        
-        
-        
+    def for_each(self,fn):
+
+        fn(self.value)
+
+        if self.right:
+            self.right.for_each(fn)
+
+        if self.left:
+            self.left.for_each(fn)
+
 
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        
+        root = self
+        order_stack = Stack()
+        
+        cur_nd = root
+        if root.left is not None:
+            while cur_nd.checked == False and root.left.checked==False:
+                if cur_nd.left is not None and cur_nd.left.checked==False:
+                    cur_nd = cur_nd.left
+                
+                else:
+                    order_stack.push(cur_nd.value)
+                    
+                    order_stack.pop()
+                    if cur_nd.right is not None:
+                        cur_nd.right.in_order_print()
+                    
+                cur_nd.checked = True
+                cur_nd = root
+        order_stack.push(root.value)
+        
+        order_stack.pop()
+        root.checked = True
+        if root.right is not None:
+            root = root.right
+            root.in_order_print()
+        
+    
+    
     def in_order_dft(self):
         pass
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
-        pass
+        cur_nd = self
+        N_queue = Queue()
+        if cur_nd.checked == False:
+            N_queue.enqueue(cur_nd.value)
+            cur_nd.checked = True
+        cur_l = cur_nd.left
+        cur_r = cur_nd.right
+        
+        if cur_l is not None and cur_r is not None:
+                N_queue.enqueue(cur_l.value)
+                N_queue.enqueue(cur_r.value)
+                
+                cur_l.checked = True
+                cur_r.checked = True
+                cur_l.bft_print()
+                                
+        elif cur_r is not None:
+                N_queue.enqueue(cur_r.value)
+                
+                cur_r.checked = True
+                cur_r.bft_print()
+        else:
+                N_queue.enqueue(cur_l().value)
+                cur_l.bft_print()
+        while N_queue.size != 0:
+                N_queue.dequeue
+                
+                
+            
+        
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self):
-        pass
+        root = self
+        D_stack = Stack()
+        D_stack.push(root.value)
+        root.checked = True
+        D_stack.pop()
+        cur_nd = root
+        while cur_nd.left.checked == False and cur_nd.left is not None:
+            cur_nd = cur_nd.left
+            cur_nd.dft_print()
+            cur_nd = root
+        while cur_nd.right.checked == False and cur_nd.right is not None:
+            cur_nd = cur_nd.right
+            cur_nd.dft_print()
+            cur_nd = root
+            
+        
+        
 
     # Stretch Goals -------------------------
     # Note: Research may be required
